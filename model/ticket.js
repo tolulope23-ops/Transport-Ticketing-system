@@ -1,9 +1,9 @@
 const {connPool} = require('../connect');
 const {sqlQuery} = require('./sql')
 
-async function createTicket(amount, ticket_code, seat_number, passenger_name){
+async function createTicket(passenger_name, ticket_code, amount, seat_number, weather, park_location, destinantion, date_expired){
     try {
-        const [result] = await connPool.query(sqlQuery.createTicket, [amount, ticket_code, seat_number, passenger_name]);
+        const [result] = await connPool.query(sqlQuery.createTicket, [passenger_name, ticket_code, amount, seat_number, weather, park_location, destinantion, date_expired]);
         return result;
     } catch (error) {
         console.log(error.message);
@@ -18,6 +18,7 @@ async function getTicket(){
         console.log(error.message);
     }
 };
+
 
 async function checkSeatTaken(seat_number) {
   const [rows] = await connPool.query(sqlQuery.getSeatNumber, [seat_number]);  

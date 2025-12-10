@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
 
-const {generateTicketHtmlController, getTicketsController} = require('../controller/generateTicket');
+const {generateTicketHtmlController, getTicketsController} = require('../controller/Ticket');
 const {downloadTicketController} = require('../controller/downloadPDF');
 
 

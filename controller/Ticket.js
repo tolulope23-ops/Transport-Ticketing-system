@@ -1,19 +1,20 @@
 const { getWeather } =  require('../utility/getWeather');
 const { generateTicket } = require('../utility/ticketgen');
 const { calculatePrice } = require('../utility/calculatePrice');
+const {createTicket, getTicket, checkSeatTaken} = require('../model/ticket');
+
 const {htmlToPdfAndSave} = require('../utility/genPDF');
 const {encode} = require('../utility/config');
 const {renderTemplate} = require('../utility/htmlTemplate');
-const {createTicket, getTicket, checkSeatTaken} = require('../model/ticket');
+
 
 const path = require("path");
 const TICKETS_DIR = path.join(__dirname, '..', 'Tickets');
 const server = encode().server;
 
-
-async function generateTicketHtmlController (req, res) {
+const generateTicketHtmlController = async (req, res) => {
   try {
-    const { passenger_name, seat_number, location } = req.body;
+    const { passenger_name, seat_number, park_location, destination} = req.body;
     const isSeatTaken = await checkSeatTaken(seat_number);
 
     if(isSeatTaken) {
@@ -30,8 +31,8 @@ async function generateTicketHtmlController (req, res) {
 
     const html = renderTemplate({
       passenger_name,
-      // from: 'Base',
-      to: location,
+      from: park_location,
+      to: destination,
       date: Date.now(),
       seat_number,
       ticket_code,
@@ -39,17 +40,17 @@ async function generateTicketHtmlController (req, res) {
       weather: weather
     });
 
-      // 5. create unique pdf filename
+// 5. create unique pdf filename
     const fileName = `ticket_${Date.now()}_${ticket_code}.pdf`;
 
-    // 6. generate and save PDF
+// 6. generate and save PDF
     const pdfPath = await htmlToPdfAndSave(html, TICKETS_DIR, fileName);
 
-     // Saving ticket info to db
+// Saving ticket info to db
     const saveToDb = await createTicket(amount, ticket_code, seat_number, passenger_name);
 
-    // 7. return download link
-    const downloadUrl = `${server}/download-ticket/${fileName}`;
+// 7. return download link
+    const downloadUrl = `${server}/download-pdf/${fileName}`;
 
     return res.status(201).json({
       message: 'Ticket created',
@@ -63,7 +64,7 @@ async function generateTicketHtmlController (req, res) {
   }
 }
 
-async function getTicketsController(req, res) {
+const getTicketsController = async (req, res) => {
   try {
     const [rows] = await getTicket();  
     res.status(200).json({
@@ -75,4 +76,7 @@ async function getTicketsController(req, res) {
     res.status(500).json({ message: "Failed to fetch tickets"});
   }
 }
+
+
+
 module.exports = { generateTicketHtmlController, getTicketsController };

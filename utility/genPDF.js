@@ -8,7 +8,7 @@ async function htmlToPdfAndSave(htmlContent, destFolder, fileName) {
   }
 
   const pdfPath = path.join(destFolder, fileName);
-const browser = await puppeteer.launch({ executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe"});
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
   await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
@@ -17,7 +17,5 @@ const browser = await puppeteer.launch({ executablePath: "C:/Program Files/Googl
   await browser.close();
   return pdfPath;
 }
-
-
 
 module.exports = { htmlToPdfAndSave };

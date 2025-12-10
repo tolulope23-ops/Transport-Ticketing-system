@@ -12,7 +12,8 @@ async function getWeather(location) {
         q: location
       }
     });
-    // console.log(response.data.current.condition.text);
+    console.log(response.data.current);
+    
     return response.data.current.condition.text; 
      
   } catch (error) {
@@ -20,6 +21,5 @@ async function getWeather(location) {
   }
 };
 
-// console.log(getWeather('Abuja'));
-
+console.log(getWeather('Abuja'));
 module.exports = {getWeather};

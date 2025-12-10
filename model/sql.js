@@ -1,7 +1,8 @@
 const sqlQuery = {
-    createTicket: 'INSERT INTO Ticket(amount, ticket_code, seat_number, passenger_name) VALUES(?, ?, ?, ?)',
+    createTicket: 'INSERT INTO Ticket(passenger_name, ticket_code, amount, seat_number, weather, park_location, destinantion, date_expired) VALUES(?, ?, ?, ?, ?, ?, ?, ?)',
     getTicket: 'SELECT * FROM Ticket',
     getSeatNumber: "SELECT * FROM ticket WHERE seat_number = ?"
 }
 
 module.exports = {sqlQuery};
+

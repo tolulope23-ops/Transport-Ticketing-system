@@ -7,7 +7,5 @@ function generateTicket() {
         res.status(400).json({message: "Failed to generate ticket"})
     }
 }
-
 // console.log(generateTicket());
-
 module.exports = {generateTicket};
