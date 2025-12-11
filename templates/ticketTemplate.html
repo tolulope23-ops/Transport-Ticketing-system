@@ -1,121 +1,124 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <title>Ticket</title>
+  <meta charset="UTF-8">
+  <title>Ticket - {{ticket_code}}</title>
+
   <style>
     body {
-      font-family: 'Arial', Helvetica, sans-serif;
-      background: #f3f4f6;
-      padding: 30px;
+      background: #e5e5e5;
+      font-family: "Arial", sans-serif;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
     }
 
-    .ticket {
-      width: 750px;
+    .ticket-container {
+      width: 520px;
       background: #fff;
-      border-radius: 15px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
       overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      margin: 0 auto;
-      border: 2px solid #0ea5a3;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
     }
 
-    .ticket-header {
-      background-color: #0ea5a3;
+    .header {
+      background: #2d2d2d;
       color: #fff;
-      padding: 20px;
+      padding: 16px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .ticket-header .brand {
-      font-size: 22px;
+    .header .title {
+      font-size: 18px;
       font-weight: bold;
+      letter-spacing: 1px;
     }
 
-    .ticket-header .date {
-      font-size: 16px;
+    .section {
+      padding: 14px 20px;
+      border-bottom: 1px solid #ddd;
     }
 
     .route {
       display: flex;
       justify-content: space-between;
-      padding: 20px;
-      border-bottom: 1px dashed #0ea5a3;
-      background: #e0f2f1;
+      font-size: 15px;
     }
 
     .route div {
       text-align: center;
     }
 
-    .route div strong {
-      font-size: 20px;
+    .route strong {
+      font-size: 18px;
       display: block;
-      margin-top: 5px;
+      margin-top: 4px;
+      color: #111;
     }
 
-    .passenger-info {
-      padding: 20px;
-    }
-
-    .passenger-info p {
+    .info p {
       margin: 6px 0;
-      font-size: 16px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .info strong {
+      color: #111;
     }
 
     .fare {
-      margin-top: 10px;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: bold;
-      color: #0ea5a3;
-    }
-
-    .weather {
-      margin-top: 5px;
-      font-style: italic;
-      color: #555;
+      margin-top: 10px;
+      color: #111;
     }
 
     .footer {
-      font-size: 13px;
+      font-size: 12px;
+      padding: 12px 20px;
       color: #666;
-      padding: 15px 20px;
-      border-top: 1px dashed #0ea5a3;
-      background: #f9fafb;
+      text-align: center;
     }
+
   </style>
 </head>
+
 <body>
-  <div class="ticket">
-    <div class="ticket-header">
-      <div class="brand">SmartTransport</div>
-      <div class="date">{{date}}</div>
+  <div class="ticket-container">
+
+    <div class="header">
+      <div class="title">SMART TRANSPORT</div>
+      <div>{{date}}</div>
     </div>
 
-    <div class="route">
+    <div class="section route">
       <div>
-        <div>FROM</div>
+        FROM
         <strong>{{from}}</strong>
       </div>
       <div>
-        <div>TO</div>
+        TO
         <strong>{{to}}</strong>
       </div>
     </div>
 
-    <div class="passenger-info">
+    <div class="section info">
       <p><strong>Passenger:</strong> {{passenger_name}}</p>
-      <p><strong>Seat:</strong> {{seat_number}}</p>
+      <p><strong>Seat No:</strong> {{seat_number}}</p>
       <p><strong>Ticket Code:</strong> {{ticket_code}}</p>
       <p class="fare">Fare: ₦{{amount}}</p>
-      <p class="weather">Weather at destination: {{weather}}</p>
+      <p><strong>Weather:</strong> {{weather}}</p>
+      <p><strong>Expires:</strong> {{date_expired}}</p>
     </div>
 
     <div class="footer">
-      Please arrive 30 minutes before departure. Present valid ID. Safe travel with SmartTransport.
+      Please arrive 20 minutes before departure.  
+      Keep this ticket safe. Valid for one trip only.
     </div>
+
   </div>
 </body>
 </html>
