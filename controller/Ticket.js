@@ -5,6 +5,7 @@ const {createTicket, getTicket, checkSeatTaken} = require('../model/ticket');
 
 const {htmlToPdfAndSave} = require('../utility/genPDF');
 const {encode} = require('../utility/config');
+const {expireTicket} = require('../utility/ticketgen')
 const {renderTemplate} = require('../utility/htmlTemplate');
 
 
@@ -17,27 +18,31 @@ const generateTicketHtmlController = async (req, res) => {
     const { passenger_name, seat_number, park_location, destination} = req.body;
     const isSeatTaken = await checkSeatTaken(seat_number);
 
-    if(isSeatTaken) {
+    if(isSeatTaken) 
       return res.status(400).json({
         message: `Seat number ${seat_number} is already taken. Choose another seat.`
       });
-    }
 
-    const weather = await getWeather(location);
+    const weather = await getWeather(destination);
 
     const amount = calculatePrice(weather);
 
     const ticket_code = generateTicket();
 
+    const ticket_date = expireTicket().dateGenerated;
+    const ticketExpiredDate = expireTicket().expiryTime;
+
+
     const html = renderTemplate({
       passenger_name,
       from: park_location,
       to: destination,
-      date: Date.now(),
+      date: ticket_date,
       seat_number,
       ticket_code,
       amount,
-      weather: weather
+      weather: weather,
+      date_expired: ticketExpiredDate
     });
 
 // 5. create unique pdf filename
@@ -47,7 +52,7 @@ const generateTicketHtmlController = async (req, res) => {
     const pdfPath = await htmlToPdfAndSave(html, TICKETS_DIR, fileName);
 
 // Saving ticket info to db
-    const saveToDb = await createTicket(amount, ticket_code, seat_number, passenger_name);
+    const saveToDb = await createTicket(passenger_name, ticket_code, amount, seat_number, weather, park_location, destination, ticketExpiredDate);
 
 // 7. return download link
     const downloadUrl = `${server}/download-pdf/${fileName}`;
@@ -55,7 +60,7 @@ const generateTicketHtmlController = async (req, res) => {
     return res.status(201).json({
       message: 'Ticket created',
       data: {
-        passenger_name, to, date, seat_number, ticket_code, amount, weather, download: downloadUrl}
+        passenger_name, seat_number, ticket_code, amount, weather, download: downloadUrl}
     });
 
   } catch (error) {
