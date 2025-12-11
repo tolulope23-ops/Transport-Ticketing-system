@@ -1,13 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
+//Reads ticket html file
 function loadTemplate() {
   const tplPath = path.join(__dirname, '..', 'templates', 'ticketTemplate.html');
   return fs.readFileSync(tplPath, 'utf8');
 }
 
-// console.log(loadTemplate());
-
+//Funtion to replace each place holder with the actual value from data parameter using split and join method.
 function renderTemplate(data) {
   let html = loadTemplate();
 

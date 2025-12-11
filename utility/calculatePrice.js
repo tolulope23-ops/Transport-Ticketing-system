@@ -7,11 +7,14 @@ const priceMap = {
   "cloudy": 5000
 };
 
+// Function calculates and return prices based on the weather condition
 const calculatePrice = (weather) => {
   const condition = weather.toLowerCase();
   for (const key in priceMap) {
-    if (condition.includes(key)) {
+    if (condition.includes(key))
       return basePrice + priceMap[key];
+    else{
+      return basePrice;
     }
   }
 };

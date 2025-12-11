@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 
+// Function to convert ticket html to pdf and save it to a file
 async function htmlToPdfAndSave(htmlContent, destFolder, fileName) {
   if (!fs.existsSync(destFolder)) {
     fs.mkdirSync(destFolder, { recursive: true });
@@ -12,7 +13,7 @@ async function htmlToPdfAndSave(htmlContent, destFolder, fileName) {
   const page = await browser.newPage();
 
   await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-  await page.pdf({ path: pdfPath, format: 'A4', printBackground: true });
+  await page.pdf({ path: pdfPath, format: 'A5', printBackground: true });
 
   await browser.close();
   return pdfPath;
