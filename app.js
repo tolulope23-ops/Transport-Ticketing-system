@@ -1,10 +1,9 @@
 const express = require('express');
 const approutes = require('./routes/ticket');
-const path = require('path');
 const app = express();
+const path = require('path');
+
 app.use(express.json());
-
-
 app.use('/ticketgen', express.static(path.join(__dirname, 'Tickets')));
 app.use('/v1', approutes);
 
